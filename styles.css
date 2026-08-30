@@ -47,7 +47,8 @@ section{padding:76px 0}
 
 /* ---------- Brand / logo (SVG adapts to theme) ---------- */
 .brand{display:flex;align-items:center;gap:10px;font-weight:700}
-.brand .logo{height:38px;width:auto;flex:none}
+.brand .logo{height:34px;width:auto;flex:none;background:#14235c;padding:5px 8px;border-radius:9px}
+footer .brand .logo{height:36px}
 .brand .word{display:flex;flex-direction:column;line-height:1}
 .brand .word b{font-family:Georgia,"Times New Roman",serif;font-size:22px;letter-spacing:.3px;color:var(--ink)}
 .brand .word span{font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-top:2px}
