@@ -23,18 +23,23 @@ function applyTheme(key){
   let saved='steel'; try{ saved = localStorage.getItem('stravia-theme') || 'steel'; }catch(e){}
   applyTheme(saved);
   document.addEventListener('DOMContentLoaded', () => {
-    const fab=document.createElement('button'); fab.className='theme-fab'; fab.title='Change colour theme'; fab.innerHTML='🎨';
+    const nav=document.querySelector('.nav'), header=document.querySelector('header');
+    if(!nav || !header) return;
+    const toggle=document.createElement('button'); toggle.className='theme-toggle'; toggle.title='Colour theme'; toggle.setAttribute('aria-label','Change colour theme');
+    toggle.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a9 9 0 100 18h1.4a2.4 2.4 0 002.1-3.6 1.5 1.5 0 011.3-2.3H19a2 2 0 002-2A9 9 0 0012 3z"/><circle cx="8" cy="10" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="7.4" r="1.1" fill="currentColor" stroke="none"/><circle cx="16" cy="10" r="1.1" fill="currentColor" stroke="none"/></svg>';
+    const hamb=nav.querySelector('.hamb'); nav.insertBefore(toggle, hamb);
     const panel=document.createElement('div'); panel.className='theme-panel';
+    const chk='<svg class="chk" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     let html='<h4>Colour theme</h4>';
     for(const k in THEMES){ const t=THEMES[k];
-      html+=`<button class="theme-opt" data-theme="${k}"><span class="sw"><i style="background:${t.d2}"></i><i style="background:${t.accent}"></i><i style="background:${t.accentSoft}"></i></span>${t.name}`
-        + (t.rec?'<span class="rec">Recommended</span>':(t.logo?'<span class="rec">Logo</span>':''))+'</button>';
+      html+=`<button class="theme-opt" data-theme="${k}"><span class="sw"><i style="background:${t.d2}"></i><i style="background:${t.accent}"></i><i style="background:${t.accentSoft}"></i></span><span class="nm">${t.name}</span>`
+        + (t.rec?'<span class="rec">Recommended</span>':(t.logo?'<span class="rec">Logo</span>':'')) + chk + '</button>';
     }
     panel.innerHTML=html;
-    document.body.append(fab,panel);
-    fab.addEventListener('click',()=>panel.classList.toggle('open'));
-    panel.querySelectorAll('.theme-opt').forEach(o=>o.addEventListener('click',()=>{applyTheme(o.dataset.theme);panel.classList.remove('open');}));
-    document.addEventListener('click',e=>{ if(!panel.contains(e.target)&&e.target!==fab) panel.classList.remove('open'); });
+    header.appendChild(panel);
+    toggle.addEventListener('click', e => { e.stopPropagation(); panel.classList.toggle('open'); });
+    panel.querySelectorAll('.theme-opt').forEach(o => o.addEventListener('click', () => { applyTheme(o.dataset.theme); panel.classList.remove('open'); }));
+    document.addEventListener('click', e => { if(!panel.contains(e.target) && !toggle.contains(e.target)) panel.classList.remove('open'); });
     applyTheme(saved);
   });
 })();
