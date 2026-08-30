@@ -1,0 +1,10 @@
+# internal preview/option galleries (not part of the live site)
+*-options.html
+options.html
+hero-samples.html
+_*.html
+
+# local notes / editor files
+imp_points.txt
+*.code-workspace
+.DS_Store

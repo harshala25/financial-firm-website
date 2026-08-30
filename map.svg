@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <pattern id="d" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="1.6" cy="1.6" r="0.95" fill="#cfdcec"/>
+    </pattern>
+    <clipPath id="l">
+      <path d="M70,72 L150,58 L250,72 L330,92 L360,108 L338,150 L292,182 L250,205 L212,196 L182,158 L150,150 L112,128 L82,112 Z"/>
+      <path d="M360,55 L400,50 L410,80 L378,92 L358,78 Z"/>
+      <path d="M300,214 L356,222 L400,262 L388,300 L356,356 L322,404 L306,392 L296,336 L278,296 L286,250 Z"/>
+      <path d="M470,92 L520,74 L556,84 L590,92 L582,120 L548,132 L512,130 L486,116 Z"/>
+      <path d="M520,60 L540,52 L548,74 L528,82 Z"/>
+      <path d="M472,168 L556,158 L612,176 L622,214 L602,262 L576,314 L546,360 L520,340 L502,288 L482,236 L468,196 Z"/>
+      <path d="M636,330 L648,326 L652,352 L640,356 Z"/>
+      <path d="M600,86 L700,66 L820,72 L918,92 L980,124 L954,156 L872,150 L806,168 L742,182 L676,150 L632,120 Z"/>
+      <path d="M690,150 L720,160 L716,205 L698,220 L682,190 Z"/>
+      <path d="M786,178 L822,186 L830,214 L800,220 L784,200 Z"/>
+      <path d="M818,296 L888,286 L926,308 L910,346 L858,360 L824,338 Z"/>
+    </clipPath>
+  </defs>
+  <rect width="1000" height="500" fill="url(#d)" clip-path="url(#l)"/>
+</svg>
