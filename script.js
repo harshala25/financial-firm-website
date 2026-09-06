@@ -4,11 +4,11 @@ document.documentElement.classList.add('js');
 /* ---------- Theme switcher ---------- */
 const THEMES = {
   steel:  {name:'Steel Blue', rec:true,  bg:'#f5f8fc',ink:'#1f2a3a',muted:'#5b6875',accent:'#3b6ea5',accentDark:'#2d5683',accentSoft:'#d3e0ee',line:'#e0e6ef',d1:'#2a3d57',d2:'#141d2b'},
-  navy:   {name:'Stravia Navy',logo:true,bg:'#f4f6fb',ink:'#14235c',muted:'#5a6478',accent:'#2f6fed',accentDark:'#1a2a6b',accentSoft:'#d7e2f9',line:'#dfe4f0',d1:'#1f3170',d2:'#0f1a45'},
-  royal:  {name:'Royal Blue',  bg:'#f6f9fd',ink:'#12233f',muted:'#5c6b7a',accent:'#2f6fed',accentDark:'#2154c4',accentSoft:'#d5e2fb',line:'#e1e8f2',d1:'#21386a',d2:'#101d3a'},
-  teal:   {name:'Deep Teal',   bg:'#f3fafa',ink:'#0f2e33',muted:'#526266',accent:'#14757a',accentDark:'#0f5c60',accentSoft:'#cfe6e6',line:'#dbeaea',d1:'#14424a',d2:'#0a2226'},
-  indigo: {name:'Indigo',      bg:'#f7f8fd',ink:'#1b2148',muted:'#63697f',accent:'#4657c9',accentDark:'#3543a3',accentSoft:'#dadefb',line:'#e4e6f3',d1:'#262a66',d2:'#12143a'},
-  slate:  {name:'Slate Blue',  bg:'#f5f7fb',ink:'#23303f',muted:'#5d6a78',accent:'#4a6c8a',accentDark:'#39546c',accentSoft:'#d6e0ea',line:'#e1e6ee',d1:'#2a3a4d',d2:'#151f2a'}
+  navy:   {name:'Stravia Navy',logo:true, bg:'#f4f6fb',ink:'#20294b',muted:'#5a6478',accent:'#3a5590',accentDark:'#22376b',accentSoft:'#dfe6f3',line:'#e2e5ed',d1:'#1f3166',d2:'#101a3e'},
+  royal:  {name:'Royal Blue', bg:'#f6f9fd',ink:'#192334',muted:'#5c6b7a',accent:'#4b75c6',accentDark:'#3d5b9e',accentSoft:'#dee6f4',line:'#e4e9ef',d1:'#2d3b59',d2:'#171e2f'},
+  teal:   {name:'Deep Teal', bg:'#f3fafa',ink:'#142729',muted:'#526266',accent:'#255c5f',accentDark:'#1c4749',accentSoft:'#d5e3e3',line:'#dee7e7',d1:'#1d383d',d2:'#0e1c1e'},
+  indigo: {name:'Indigo', bg:'#f7f8fd',ink:'#22263d',muted:'#63697f',accent:'#5863ad',accentDark:'#464f87',accentSoft:'#e2e5f5',line:'#e7e8f0',d1:'#313357',d2:'#181930'},
+  slate:  {name:'Slate Blue', bg:'#f5f7fb',ink:'#282e33',muted:'#5d6a78',accent:'#56636f',accentDark:'#414b55',accentSoft:'#dee3e7',line:'#e5e7ea',d1:'#31383f',d2:'#181c20'}
 };
 function applyTheme(key){
   const t = THEMES[key] || THEMES.steel, r = document.documentElement.style;
@@ -47,7 +47,113 @@ function applyTheme(key){
 /* ---------- Mobile menu ---------- */
 function toggleMenu(){ document.querySelector('.mobile').classList.toggle('open'); }
 
+/* ---------- Header: transparent over the hero, solid theme colour once scrolled ---------- */
+(function initHeaderScroll(){
+  const set = () => {
+    const h = document.querySelector('header');
+    if(h) h.classList.toggle('scrolled', window.scrollY > 60);
+  };
+  window.addEventListener('scroll', set, {passive:true});
+  document.addEventListener('DOMContentLoaded', set);
+  set();
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
+
+  /* ---- Services accordion ---- */
+  (function initServiceAccordion(){
+    const setOpen = (block, open) => {
+      block.classList.toggle('open', open);
+      const r = block.querySelector('.svc-row');
+      if(!r) return;
+      r.setAttribute('aria-expanded', open ? 'true' : 'false');
+      r.querySelector('.cx').innerHTML = open ? '&minus;' : '+';
+    };
+    document.querySelectorAll('.svc-block .svc-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const block = row.closest('.svc-block');
+        const willOpen = !block.classList.contains('open');
+        // only one service open at a time
+        document.querySelectorAll('.svc-block.open').forEach(b => { if(b !== block) setOpen(b, false); });
+        setOpen(block, willOpen);
+      });
+    });
+  })();
+
+  /* ---- "Learn more" deep links: land on the right service block, not just the page ---- */
+  (function initDeepLink(){
+    const id = (location.hash || '').slice(1);
+    if(!id) return;
+    const target = document.getElementById(id);
+    if(!target) return;
+    // if the target is a collapsed accordion block, open it (and close the default one)
+    if(target.classList.contains('svc-block')){
+      document.querySelectorAll('.svc-block.open').forEach(b => {
+        if(b === target) return;
+        b.classList.remove('open');
+        const r = b.querySelector('.svc-row');
+        if(r){ r.setAttribute('aria-expanded','false'); r.querySelector('.cx').innerHTML = '+'; }
+      });
+      target.classList.add('open');
+      const r = target.querySelector('.svc-row');
+      if(r){ r.setAttribute('aria-expanded','true'); r.querySelector('.cx').innerHTML = '&minus;'; }
+    }
+    // the block starts hidden for the scroll-reveal — show it (and any revealing parents) first
+    let el = target;
+    while(el && el !== document.body){
+      if(el.classList && el.classList.contains('reveal')){ el.style.transition='none'; el.style.opacity='1'; el.style.transform='none'; el.classList.add('in'); }
+      el = el.parentElement;
+    }
+    setTimeout(() => {
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+      target.classList.add('jump');
+      setTimeout(() => target.classList.remove('jump'), 2400);
+    }, 120);
+  })();
+
+  /* ---- "Ask AI for a summary": open the assistant with the question already asked ---- */
+  (function initAskAI(){
+    const btns = document.querySelectorAll('.ai-go');
+    if(!btns.length) return;
+    const site = location.protocol === 'file:' ? 'https://stravia.com' : location.origin + location.pathname.replace(/[^/]*$/, '');
+    const q = 'Please read ' + site + ' and give me a short summary of Stravia Financial Consulting — '
+            + 'what they do, their services, the industries they serve, how they work, and who they are a good fit for.';
+    const e = encodeURIComponent(q);
+    const URLS = {
+      // no &hints=search — that flag made ChatGPT drop into web-search mode instead of
+      // just taking the question, which is why the behaviour looked inconsistent
+      chatgpt:    'https://chatgpt.com/?q=' + e,
+      claude:     'https://claude.ai/new?q=' + e,
+      perplexity: 'https://www.perplexity.ai/search?q=' + e,
+      // Gemini accepts no prefill parameter, so we open it and paste the question from the clipboard
+      gemini:     'https://gemini.google.com/app'
+    };
+    const toast = document.createElement('div');
+    toast.className = 'ai-toast';
+    document.body.appendChild(toast);
+    let timer;
+    const say = msg => {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(timer);
+      timer = setTimeout(() => toast.classList.remove('show'), 4200);
+    };
+
+    btns.forEach(a => {
+      const key = a.dataset.ai, name = a.textContent.trim();
+      if(URLS[key]) a.href = URLS[key];
+      a.title = 'Ask ' + name + ' to summarise Stravia';
+      a.addEventListener('click', () => {
+        // copy the question too: Gemini needs a paste, and it is a fallback everywhere else
+        const copied = navigator.clipboard && navigator.clipboard.writeText(q);
+        const note = key === 'gemini'
+          ? 'Question copied — press Ctrl/Cmd + V in Gemini and hit enter.'
+          : 'Opening ' + name + ' with the question ready. (Also copied, just in case.)';
+        if(copied && copied.then) copied.then(() => say(note)).catch(() => {});
+        else say(note);
+      });
+    });
+  })();
 
   /* ---- Reliable hero video playback ----
      Browsers pause muted autoplay video in background tabs / Low Power Mode, and Safari
@@ -125,7 +231,127 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---- Contact form ---- */
   initContactForm();
+  initCustomSelects();          // must run after the country list is populated
 });
+
+/* ---------- Themed dropdown ----------
+   A native <select>'s popup is drawn by the OS and cannot be styled, so we build a real
+   listbox next to it. The <select> stays in the DOM and remains the source of truth for
+   the value and for validate(); every pick writes to it and fires a change event. */
+function initCustomSelects(){
+  document.querySelectorAll('.selwrap select').forEach(sel => {
+    if(sel.dataset.cs) return;
+    sel.dataset.cs = '1';
+    const wrap = sel.closest('.selwrap');
+    wrap.classList.add('cs');
+    sel.tabIndex = -1;
+    sel.setAttribute('aria-hidden', 'true');
+
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'cs-btn';
+    btn.setAttribute('aria-haspopup', 'listbox');
+    btn.setAttribute('aria-expanded', 'false');
+    const lbl = wrap.closest('.field') && wrap.closest('.field').querySelector('label');
+    if(lbl) btn.setAttribute('aria-label', lbl.textContent.trim());
+
+    const list = document.createElement('div');
+    list.className = 'cs-list';
+    list.setAttribute('role', 'listbox');
+    wrap.append(btn, list);
+
+    [...sel.options].forEach((o, i) => {
+      const it = document.createElement('div');
+      it.className = 'cs-opt' + (o.value === '' ? ' ph' : '');
+      it.setAttribute('role', 'option');
+      it.dataset.i = i;
+      it.textContent = o.textContent;
+      list.appendChild(it);
+    });
+    const items = [...list.children];
+
+    const sync = () => {
+      const i = sel.selectedIndex, o = sel.options[i];
+      btn.textContent = o ? o.textContent : '';
+      btn.classList.toggle('ph', !o || o.value === '');
+      items.forEach((c, n) => {
+        const on = n === i;
+        c.classList.toggle('sel', on);
+        c.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    };
+
+    let active = -1;
+    const mark = n => {
+      items.forEach(c => c.classList.remove('active'));
+      active = n;
+      if(n >= 0 && items[n]){
+        items[n].classList.add('active');
+        items[n].scrollIntoView({block:'nearest'});
+      }
+    };
+    const isOpen = () => wrap.classList.contains('open');
+    const open = () => {
+      document.querySelectorAll('.selwrap.open').forEach(w => { if(w !== wrap) close(w); });
+      wrap.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      mark(sel.selectedIndex);
+    };
+    const close = (w) => {
+      const target = w || wrap;
+      target.classList.remove('open');
+      const b = target.querySelector('.cs-btn');
+      if(b) b.setAttribute('aria-expanded', 'false');
+      if(target === wrap) mark(-1);
+    };
+    const pick = n => {
+      if(n < 0 || n >= sel.options.length) return;
+      sel.selectedIndex = n;
+      sel.dispatchEvent(new Event('change', {bubbles:true}));
+      sync(); close(); btn.focus();
+    };
+
+    btn.addEventListener('click', e => { e.stopPropagation(); isOpen() ? close() : open(); });
+    items.forEach(it => {
+      it.addEventListener('click', e => { e.stopPropagation(); pick(+it.dataset.i); });
+      it.addEventListener('mousemove', () => mark(items.indexOf(it)));
+    });
+
+    let typed = '', typeTimer;
+    btn.addEventListener('keydown', e => {
+      const k = e.key;
+      if(k === 'ArrowDown' || k === 'ArrowUp' || k === 'Enter' || k === ' '){
+        e.preventDefault();
+        if(!isOpen()){ open(); return; }
+        if(k === 'Enter' || k === ' ') pick(active);
+        else mark(Math.max(0, Math.min(items.length - 1, active + (k === 'ArrowDown' ? 1 : -1))));
+        return;
+      }
+      if(k === 'Escape'){ close(); return; }
+      if(k === 'Home' || k === 'End'){ e.preventDefault(); if(isOpen()) mark(k === 'Home' ? 0 : items.length - 1); return; }
+      if(k.length === 1 && /\S/.test(k)){          // type-ahead, e.g. "ind" -> India
+        if(!isOpen()) open();
+        typed += k.toLowerCase();
+        clearTimeout(typeTimer);
+        typeTimer = setTimeout(() => { typed = ''; }, 700);
+        const n = items.findIndex(c => c.textContent.toLowerCase().startsWith(typed));
+        if(n > -1) mark(n);
+      }
+    });
+
+    // keep the button in step when something else sets the value (e.g. typing a dial code)
+    sel.addEventListener('change', sync);
+    sel.addEventListener('cs:sync', sync);   // value changed programmatically
+    sync();
+  });
+
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.selwrap.open').forEach(w => {
+      w.classList.remove('open');
+      const b = w.querySelector('.cs-btn');
+      if(b) b.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
 
 function initContactForm(){
   const form = document.getElementById('enquiry');
@@ -153,7 +379,7 @@ function initContactForm(){
   name.addEventListener('input',()=>{const ok=V.name();if(name.value)setV(name,ok);err('f-name',ok||!name.value?'':'Please enter your name.');validate();});
   email.addEventListener('input',()=>{const ok=V.email();if(email.value)setV(email,ok);err('f-email',ok||!email.value?'':'Enter a valid email.');validate();});
   phone.addEventListener('input',()=>{const ok=V.phone();if(phone.value)setV(phone,ok);err('f-phone',ok||!phone.value?'':'Enter a valid number (6–14 digits).');validate();});
-  code.addEventListener('input',()=>{let v=code.value.trim();if(v&&v[0]!=='+'){v='+'+v.replace(/\+/g,'');code.value=v;}if(codeToCountry[v])country.value=codeToCountry[v];validate();});
+  code.addEventListener('input',()=>{let v=code.value.trim();if(v&&v[0]!=='+'){v='+'+v.replace(/\+/g,'');code.value=v;}if(codeToCountry[v]){country.value=codeToCountry[v];country.dispatchEvent(new Event('cs:sync'));}validate();});
   country.addEventListener('change',()=>{const o=country.selectedOptions[0];if(o)code.value=o.getAttribute('data-code');validate();});
   if(msg) msg.addEventListener('input',()=>{ if(msgCount) msgCount.textContent=msg.value.length+' / 500'; });
   consent.addEventListener('change',validate);

@@ -12,7 +12,7 @@
   --radius:20px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 html,body{overflow-x:hidden}
 body{
   font-family:"Poppins","Segoe UI",system-ui,-apple-system,sans-serif;
@@ -47,35 +47,47 @@ section{padding:76px 0}
 
 /* ---------- Brand / logo (SVG adapts to theme) ---------- */
 .brand{display:flex;align-items:center;gap:10px;font-weight:700}
-.brand .logo{height:34px;width:auto;flex:none;background:#14235c;padding:5px 8px;border-radius:9px}
-footer .brand .logo{height:36px}
+.brand .logo{height:34px;width:auto;flex:none;background:var(--ink);padding:5px 8px;border-radius:9px}
+footer .brand .logo{height:36px;background:transparent;padding:0}
 .brand .word{display:flex;flex-direction:column;line-height:1}
 .brand .word b{font-family:Georgia,"Times New Roman",serif;font-size:22px;letter-spacing:.3px;color:var(--ink)}
 .brand .word span{font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-top:2px}
 
-/* ---------- Nav ---------- */
-header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 90%,transparent);
-  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+/* ---------- Nav (transparent over the hero, solid theme colour once scrolled) ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;border-bottom:none;
+  transition:background .3s ease,box-shadow .3s ease}
+/* soft scrim so the logo/menu stay readable on top of the hero photo/video */
+header::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;opacity:1;transition:opacity .3s ease;
+  background:linear-gradient(180deg,rgba(10,16,26,.58),rgba(10,16,26,0))}
+header.scrolled::before{opacity:0}
+header.scrolled{background:var(--d2);box-shadow:0 6px 22px rgba(0,0,0,.28)}
 .nav{display:flex;align-items:center;height:72px;gap:13px}
 .nav .brand{margin-right:auto}
+header .brand .logo{background:transparent;padding:0;height:38px}
+header .brand .word b{color:#fff}
+header .brand .word span{color:#c3d1e2}
 .navlinks{display:flex;gap:26px;align-items:center;font-size:14.5px;font-weight:500}
-.navlinks a{color:var(--muted);transition:.15s;position:relative;padding:4px 0;white-space:nowrap}
-.navlinks a:hover{color:var(--ink)}
-.navlinks a.active{color:var(--ink);font-weight:600}
-.navlinks a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--accent);border-radius:2px}
-.navlinks a.btn{color:var(--on-accent);padding:9px 20px;font-size:13.5px}
-.hamb{display:none;background:none;border:none;font-size:26px;color:var(--ink);cursor:pointer;line-height:1}
-.mobile{display:none;flex-direction:column;gap:2px;padding:10px 16px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
-.mobile a{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;color:var(--ink);font-weight:500;border-radius:12px;transition:.15s}
-.mobile a::after{content:"›";color:var(--muted);font-size:19px;line-height:1}
-.mobile a:hover,.mobile a:active{background:var(--accent-soft);color:var(--accent-dark)}
+.navlinks a{color:#d5e0ee;transition:.15s;position:relative;padding:4px 0;white-space:nowrap}
+.navlinks a:hover{color:#fff}
+.navlinks a.active{color:#fff;font-weight:600}
+.navlinks a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--accent-soft);border-radius:2px}
+/* Contact: glass outline so it sits on the hero photo without fighting it */
+.navlinks a.btn{background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.6);color:#fff;
+  box-shadow:none;backdrop-filter:blur(8px);padding:8px 20px;font-size:13.5px}
+.navlinks a.btn:hover{background:#fff;color:var(--ink);border-color:#fff;
+  transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.hamb{display:none;background:none;border:none;font-size:26px;color:#fff;cursor:pointer;line-height:1}
+.mobile{display:none;flex-direction:column;gap:2px;padding:10px 16px 16px;background:var(--d2);border-bottom:none}
+.mobile a{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;color:#e3eaf3;font-weight:500;border-radius:12px;transition:.15s}
+.mobile a::after{content:"›";color:#8fa3bb;font-size:19px;line-height:1}
+.mobile a:hover,.mobile a:active{background:rgba(255,255,255,.11);color:#fff}
 .mobile.open{display:flex;animation:slidedown .24s cubic-bezier(.16,1,.3,1)}
 @keyframes slidedown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
 
 /* ---------- Theme switcher (in the header bar) ---------- */
-.theme-toggle{width:40px;height:40px;flex:none;border-radius:11px;border:1px solid var(--line);background:var(--surface);
-  color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s}
-.theme-toggle:hover{border-color:var(--accent);color:var(--accent-dark);background:var(--accent-soft)}
+.theme-toggle{width:40px;height:40px;flex:none;border-radius:11px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.13);
+  color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;backdrop-filter:blur(6px)}
+.theme-toggle:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.24)}
 .theme-toggle svg{width:20px;height:20px}
 .theme-panel{position:absolute;top:64px;right:22px;z-index:140;width:250px;background:var(--surface);
   border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 52px rgba(20,29,43,.24);padding:10px;
@@ -98,7 +110,7 @@ header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 
 
 /* ---------- Hero (video background) ---------- */
 .hero{position:relative;overflow:hidden;min-height:86vh;display:flex;align-items:center;text-align:center;color:#fff;
-  padding:120px 0 90px;background:#141d2b url(assets/meeting.webp) center/cover no-repeat}
+  padding:150px 0 90px;background:#141d2b url(assets/meeting.webp) center/cover no-repeat}
 .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:opacity .5s ease}
 .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(15,22,34,.72),rgba(15,22,34,.5) 42%,rgba(15,22,34,.86))}
@@ -111,11 +123,20 @@ header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 
 .hero .btn-outline{color:#fff;border-color:rgba(255,255,255,.55)}
 .hero .btn-outline:hover{background:#fff;color:var(--ink);border-color:#fff}
 
+/* ---------- Core brand promise (home, lead-in above the framework cards) ---------- */
+.promise{text-align:center;max-width:760px;margin:0 auto 34px;padding-bottom:30px;
+  border-bottom:1px solid rgba(143,182,230,.22)}
+.promise .a{font-family:Georgia,"Times New Roman",serif;font-size:clamp(18px,2.4vw,25px);color:#a9c8ee;font-style:italic}
+.promise .b{font-family:Georgia,"Times New Roman",serif;font-size:clamp(21px,3vw,32px);color:#fff;margin-top:5px;font-weight:700}
+
 /* ---------- Page banner (inner pages) ---------- */
-.banner{color:#fff;text-align:center;padding:74px 0 66px;position:relative;overflow:hidden;
+/* min-height + centring keeps every inner-page banner the same height,
+   even on About where the intro line is much shorter */
+.banner{color:#fff;text-align:center;padding:146px 0 70px;position:relative;overflow:hidden;
+  min-height:404px;display:flex;align-items:center;
   background:radial-gradient(120% 130% at 50% -20%,var(--d1),var(--d2))}
 .banner-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.9;pointer-events:none}
-.banner .wrap{position:relative;z-index:1}
+.banner .wrap{position:relative;z-index:1;width:100%}
 .banner h1{font-size:clamp(28px,5vw,48px)}
 .banner p{color:#c4d1e0;margin:12px auto 0;font-size:clamp(15px,2vw,17px);max-width:60ch}
 .banner .crumb{color:var(--accent-soft);font-size:12.5px;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
@@ -172,17 +193,36 @@ header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 
   background:linear-gradient(135deg,#cfe0f5,color-mix(in srgb,var(--accent) 70%,#fff));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .pillar h3{font-size:18px;margin:6px 0 9px}
 .pillar p{color:#c4d1e0;font-size:14px}
+/* Our Framework — all five in a single row, no numbering */
+.pillars-5{grid-template-columns:repeat(5,1fr);gap:16px;max-width:1080px;margin:0 auto}
+.pillars-5 .pillar{padding:24px 20px;min-height:196px;display:flex;flex-direction:column}
+.pillars-5 .pillar h3{font-size:17px;margin:0 0 10px}
+.pillars-5 .pillar p{font-size:13.4px}
+@media(max-width:1000px){.pillars-5{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:720px){.pillars-5{grid-template-columns:1fr 1fr}.pillars-5 .pillar{min-height:0}}
+@media(max-width:460px){.pillars-5{grid-template-columns:1fr}}
 
 /* ---------- Service blocks (Services page) ---------- */
-.svc-block{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;
-  box-shadow:0 10px 26px rgba(31,42,58,.05);margin-bottom:22px}
-.svc-block .h{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.svc-block{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:0 10px 26px rgba(31,42,58,.05);margin-bottom:22px;scroll-margin-top:96px;overflow:hidden;
+  transition:box-shadow .4s ease,border-color .4s ease}
+/* flash the block you land on when arriving from a "Learn more" link */
+.svc-block.jump{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 20%,transparent),0 18px 40px rgba(31,42,58,.14)}
 .svc-block .num{flex:none;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
   font-weight:700;color:#fff;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 82%,#fff),var(--accent-dark))}
-.svc-block h3{font-size:20px}
-.svc-block .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{background:color-mix(in srgb,var(--accent-soft) 60%,var(--bg));border:1px solid var(--line);color:var(--ink);
-  font-size:13px;padding:6px 13px;border-radius:30px}
+.svc-block h3{font-size:19px;transition:color .2s}
+/* accordion row */
+.svc-row{width:100%;display:flex;align-items:center;gap:15px;padding:20px 24px;background:none;border:none;cursor:pointer;
+  font-family:inherit;text-align:left;color:var(--ink)}
+.svc-row:hover h3{color:var(--accent-dark)}
+.svc-row .cx{margin-left:auto;flex:none;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent-dark);
+  font-style:normal;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;transition:.25s}
+.svc-block.open .svc-row .cx{background:var(--accent);color:#fff;transform:rotate(180deg)}
+.svc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .32s cubic-bezier(.16,1,.3,1)}
+.svc-block.open .svc-panel{grid-template-rows:1fr}
+.svc-panel>.inner{overflow:hidden;min-height:0}
+.svc-panel .pad{padding:0 24px 24px}
+.no-js .svc-panel,.svc-panel.forced{grid-template-rows:1fr}
 .svc-block .outcome{margin-top:16px;font-size:14px;color:var(--accent-dark);background:var(--accent-soft);
   padding:11px 16px;border-radius:12px;display:flex;gap:8px;align-items:flex-start}
 .svc-block .outcome svg{flex:none;width:18px;height:18px;stroke:var(--accent-dark);margin-top:2px;fill:none}
@@ -198,6 +238,10 @@ header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 
 .ind .list li::before{content:"";position:absolute;left:2px;top:8px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
 .ind .kpis{display:flex;flex-wrap:wrap;gap:6px}
 .ind .kpis span{font-size:12px;background:var(--accent-soft);color:var(--accent-dark);padding:4px 10px;border-radius:20px;font-weight:600}
+/* KPIs Stravia drafted because the client's document did not list any for these industries */
+.draftflag{font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#a06a2c;
+  background:#fdf1de;border:1px solid #f0dcbd;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle}
+.ind .kpis.draft span{background:#fdf6ec;color:#8c5f27;border:1px dashed #e6cfa8}
 
 /* ---------- Team members ---------- */
 .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px}
@@ -220,11 +264,46 @@ header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 
 .val h4{font-size:15px;color:var(--accent-dark);letter-spacing:1px;margin-bottom:6px}
 .val p{font-size:13.5px;color:var(--muted)}
 
+/* ---------- "Why we built Stravia" — photo + framed commitment ---------- */
+.whysplit{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}
+.whysplit img{border-radius:18px;width:100%;height:100%;max-height:430px;object-fit:cover;box-shadow:0 24px 54px rgba(0,0,0,.34)}
+.whysplit h2{font-size:clamp(23px,3vw,34px);margin:13px 0 14px;color:#fff}
+.whysplit .lede{color:#c4d1e0;font-size:14.5px}
+.whysplit .framed{margin-top:22px;padding:26px 28px;border-radius:16px;background:rgba(255,255,255,.045);
+  border:1px solid rgba(143,182,230,.22);border-left:5px solid var(--accent)}
+.whysplit .framed h4{font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#a9c8ee;margin-bottom:13px}
+.whysplit .framed p{font-family:Georgia,"Times New Roman",serif;font-size:16px;line-height:1.66;color:#e6eef7}
+.whysplit .framed .end{margin-top:13px;font-family:inherit;font-size:13.5px;font-style:italic;color:#a9c8ee}
+@media(max-width:880px){.whysplit{grid-template-columns:1fr;gap:28px}.whysplit img{max-height:300px}}
+
 /* ---------- Insights ---------- */
-.insights{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.insights span{background:var(--surface);border:1px solid var(--line);color:var(--ink);font-size:13.5px;
-  padding:9px 16px;border-radius:30px;transition:.2s}
-.insights span:hover{border-color:var(--accent);color:var(--accent-dark)}
+/* ---------- Tabular cells: Who We Help, Services capabilities, Insights topics ---------- */
+.tgrid{display:grid;gap:9px}
+.tcell{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:11px 14px;
+  display:flex;gap:10px;align-items:center;min-height:0;font-size:13px;transition:.2s}
+.tcell:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 10px 20px rgba(31,42,58,.08)}
+.tcell i{flex:none;font-style:normal;font-size:9.5px;font-weight:700;color:var(--accent-dark);background:var(--accent-soft);
+  width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.tcell .n{font-weight:600;font-size:13.2px;line-height:1.35}
+.tgrid-2{grid-template-columns:1fr 1fr}
+.tgrid.narrow{max-width:900px;margin:0 auto}
+@media(max-width:620px){.tgrid-2{grid-template-columns:1fr}}
+
+/* Insights: launch badge above the topic grid */
+.ins-launch{text-align:center;margin-bottom:22px}
+.ins-launch .launch{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--accent-dark);background:var(--accent-soft);padding:6px 15px;border-radius:30px}
+.ins-note{text-align:center;color:var(--muted);font-size:13.5px;margin-top:24px}
+
+/* Our Principles / Our Values — narrow two-column tick list */
+.vlist{max-width:780px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:0 36px}
+.vrow{display:flex;gap:12px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line)}
+.vic{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);
+  display:flex;align-items:center;justify-content:center;margin-top:1px}
+.vic svg{width:13px;height:13px;stroke:var(--accent-dark)}
+.vrow h4{font-size:14.5px;margin-bottom:3px}
+.vrow p{font-size:13px;color:var(--muted);line-height:1.5}
+@media(max-width:700px){.vlist{grid-template-columns:1fr;max-width:none}}
 
 /* ---------- CTA ---------- */
 .cta{background:linear-gradient(120deg,color-mix(in srgb,var(--accent) 80%,#fff),var(--accent-dark));color:#fff;text-align:center;padding:52px 0}
@@ -238,7 +317,8 @@ header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 
 .worldmap{position:absolute;inset:0;width:100%;height:100%;opacity:.5;pointer-events:none;
   background:url(map.svg) repeat-x center/1100px 100%;animation:mapmove 44s linear infinite}
 @keyframes mapmove{from{background-position-x:0}to{background-position-x:1100px}}
-.contact-grid{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:start;padding:70px 0}
+/* extra top padding because the header is fixed and this page has no banner */
+.contact-grid{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:start;padding-top:142px;padding-bottom:70px}
 .contact-info{color:#fff}
 .contact-info .tag{background:rgba(255,255,255,.12);color:#cfe0f5}
 .contact-info h2{font-size:clamp(24px,3.6vw,38px);margin:12px 0 14px}
@@ -268,6 +348,41 @@ header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .phone{display:flex;gap:8px}
 .phone .code-in{width:78px;flex:none;text-align:center;font-weight:600}
+/* ---- Themed dropdown ----
+   The OS draws a native <select>'s popup and CSS cannot reach it, so script.js swaps in
+   a real listbox. The <select> stays in the DOM as the value/validation source of truth. */
+.selwrap{position:relative;display:block}
+.selwrap::after{content:"";position:absolute;right:14px;top:50%;width:8px;height:8px;pointer-events:none;
+  border-right:2px solid var(--accent-dark);border-bottom:2px solid var(--accent-dark);
+  transform:translateY(-70%) rotate(45deg);transition:border-color .15s,transform .2s}
+.selwrap.open::after{transform:translateY(-20%) rotate(-135deg);border-color:var(--accent)}
+.field select{appearance:none;-webkit-appearance:none;padding-right:34px;cursor:pointer;color-scheme:light}
+.field select:hover{border-color:var(--accent)}
+/* transition:none matters — .field select has a blanket `transition:.15s`, which would
+   otherwise fade the native control in on first paint before opacity:0 settles */
+.selwrap.cs select{position:absolute;inset:0;opacity:0;pointer-events:none;transition:none}
+.cs-btn{width:100%;height:40px;border:1.5px solid var(--line);border-radius:10px;background:#fbfcfe;
+  padding:0 34px 0 12px;font:inherit;font-size:13.5px;color:var(--ink);text-align:left;cursor:pointer;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.15s}
+.cs-btn.ph{color:var(--muted)}
+.cs-btn:hover{border-color:var(--accent)}
+.selwrap.open .cs-btn,.cs-btn:focus-visible{outline:none;border-color:var(--accent);background:#fff;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent)}
+.cs-list{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:60;max-height:244px;overflow-y:auto;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:5px;
+  box-shadow:0 20px 44px rgba(20,29,43,.22);opacity:0;transform:translateY(-6px);pointer-events:none;
+  transition:.16s cubic-bezier(.16,1,.3,1);overscroll-behavior:contain}
+.selwrap.open .cs-list{opacity:1;transform:none;pointer-events:auto}
+.cs-opt{padding:9px 11px;border-radius:8px;font-size:13.5px;color:var(--ink);cursor:pointer;
+  display:flex;align-items:center;gap:8px;line-height:1.3}
+.cs-opt.ph{color:var(--muted)}
+.cs-opt:hover,.cs-opt.active{background:var(--accent-soft);color:var(--accent-dark)}
+.cs-opt.sel{background:color-mix(in srgb,var(--accent) 14%,transparent);font-weight:600}
+.cs-opt.sel::after{content:"";margin-left:auto;width:5px;height:9px;flex:none;
+  border-right:2px solid var(--accent-dark);border-bottom:2px solid var(--accent-dark);transform:rotate(45deg)}
+.cs-list::-webkit-scrollbar{width:9px}
+.cs-list::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--accent) 34%,transparent);border-radius:9px;
+  border:3px solid var(--surface)}
 .field .err{display:block;color:#c0392b;font-size:12px;margin-top:5px}
 .field .counter{display:block;text-align:right;color:var(--muted);font-size:12px;margin-top:5px}
 .captcha{display:flex;align-items:center;gap:10px}
@@ -287,6 +402,7 @@ header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 
 .btn[disabled]:hover{transform:none;box-shadow:none}
 .mapbox{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
 .mapbox iframe{display:block;width:100%;height:340px;border:0;filter:grayscale(.15)}
+.mapnote{text-align:center;color:var(--muted);font-size:13px;margin-top:14px}
 
 /* ---------- Footer ---------- */
 footer{background:var(--d2);color:#aeb9c8;padding:60px 0 28px;font-size:14px;position:relative;overflow:hidden}
@@ -309,6 +425,11 @@ footer a:hover{color:#fff}
   color:#dbe6f2;font-size:13px;font-weight:500;padding:8px 14px;border-radius:40px;margin:0;transition:.2s}
 .ai-btns a:hover{background:var(--accent);border-color:var(--accent);color:#fff;transform:translateY(-2px)}
 .ai-btns a .ai-ic{width:16px;height:16px;flex:none}
+.ai-toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);z-index:300;max-width:min(92vw,460px);
+  background:var(--d2);color:#e8eef6;font-size:13.5px;line-height:1.5;padding:13px 20px;border-radius:12px;
+  border:1px solid rgba(143,182,230,.28);box-shadow:0 18px 44px rgba(0,0,0,.4);
+  opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;text-align:center}
+.ai-toast.show{opacity:1;transform:translate(-50%,0)}
 .fsocials{display:flex;gap:11px;margin-bottom:26px}
 .fsocials a{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;margin:0;transition:.2s}
 .fsocials a:hover{background:var(--accent);transform:translateY(-2px)}
@@ -324,23 +445,90 @@ footer a:hover{color:#fff}
 @keyframes ping{0%{r:3;opacity:.9}70%{r:15;opacity:0}100%{opacity:0}}
 
 /* ---------- Responsive ---------- */
+@media(max-width:1000px){
+  .fgrid{grid-template-columns:2fr 1fr 1fr}
+}
+
+/* Touch ergonomics — anything without a mouse, phones and tablets alike */
+@media(max-width:860px),(hover:none){
+  footer a{padding:8px 0;margin-bottom:1px}
+  .fgrid a.brand{padding:0;margin-bottom:0}
+  .fsocials a,.socials a{width:44px;height:44px;margin:0}
+  .ai-btns a{padding:12px 17px}
+  .card .more{display:inline-block;padding:10px 0}
+  .consent{font-size:12.5px;gap:11px;align-items:center}
+  .consent input{width:22px;height:22px}
+  .consent a{display:inline-block;padding:5px 0}
+  .tcell i{font-size:10.5px;width:24px;height:24px}
+  .draftflag{font-size:11px}
+  .ind .kpis span,.member .focus span{font-size:12.5px;padding:6px 12px}
+  /* iOS Safari zooms the whole page when you focus a control smaller than 16px */
+  .field input,.field select,.field textarea,.cs-btn{font-size:16px;height:46px}
+  .field textarea{height:auto;min-height:88px}
+  .phone .code-in{width:84px}
+  .captcha .code,.captcha .cap-refresh{height:46px}
+  .cs-opt{padding:11px 12px;font-size:15px}
+  .cs-list{max-height:min(52vh,300px)}
+}
+
 @media(max-width:860px){
   .navlinks{display:none}
-  .hamb{display:block}
-  .theme-fab{top:76px;right:12px;width:40px;height:40px}
-  .theme-panel{top:124px;right:12px}
-  .fgrid{grid-template-columns:1fr 1fr}
+  .hamb{display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin-right:-10px}
+  .theme-panel{top:60px;right:12px;width:auto;min-width:236px;max-width:calc(100vw - 24px)}
+  .fgrid{grid-template-columns:1fr 1fr;gap:26px 24px}
   .fbot{justify-content:center;text-align:center}
+  .banner{min-height:0;padding:118px 0 54px}
+  .hero{padding-top:120px}
+  .contact-grid{padding-top:112px;padding-bottom:56px}
+  .whysplit,.split{gap:28px}
 }
-@media(max-width:560px){
+
+@media(max-width:620px){
+  /* the footer map uses preserveAspectRatio="slice"; at phone aspect ratios it zooms in so far
+     that the dots become blobs, so drop it back to a faint texture */
+  .footer-bg{opacity:.18}
   section{padding:52px 0}
-  .hero{min-height:82vh;padding:100px 0 70px}
-  .two{grid-template-columns:1fr}
-  .fgrid{grid-template-columns:1fr}
-  .ai-summary{flex-direction:column;align-items:flex-start}
-  .hero .hbtns{flex-direction:column;align-items:stretch}
+  .wrap{padding:0 18px}
+  .hero{min-height:0;padding:118px 0 62px}
+  .hero .hbtns{flex-direction:column;align-items:stretch;gap:11px}
   .hero .btn{justify-content:center}
+  .hero .eyebrow{letter-spacing:2.2px;font-size:12.5px;margin:18px 0 10px}
+  .hero .subhead,.hero .hnote{font-size:14px}
+  .banner{padding:112px 0 48px}
+  .banner p{font-size:14.5px}
+  .two{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr;gap:24px}
+  .ai-summary{flex-direction:column;align-items:flex-start;gap:14px}
   .brand .word span{display:none}
+  .brand .word b{font-size:20px}
+
+  .promise{margin-bottom:28px;padding-bottom:24px}
+  .shead{margin-bottom:32px}
+  .card,.svc-block,.ind{border-radius:16px}
+  .card{padding:24px 20px}
+  .ind{padding:22px 20px}
+  .svc-row{padding:16px 18px;gap:12px}
+  .svc-row h3{font-size:16.5px}
+  .svc-row .num{width:38px;height:38px;font-size:14px}
+  .svc-panel .pad{padding:0 18px 18px}
+  .pillars-5 .pillar{min-height:0;padding:22px 20px}
+  .form-card{padding:18px}
+  .form-card .btn{padding:14px 24px}
+  .mapbox iframe{height:260px}
+  .team{gap:20px}
+  .member img,.member .ph{height:230px}
+  .member .info{padding:20px}
+  .split img,.whysplit img{max-height:240px}
+}
+
+@media(max-width:400px){
+  .wrap{padding:0 15px}
+  .hero h1{font-size:29px}
+  .hero .eyebrow{letter-spacing:1.6px;font-size:11.5px}
+  .phone .code-in{width:70px}
+  .captcha{flex-wrap:wrap}
+  .captcha input{flex:1 1 100%;order:3}
+  .captcha .code{flex:1}
 }
 @media(prefers-reduced-motion:reduce){
   .reveal{opacity:1!important;transform:none!important}

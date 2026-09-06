@@ -51,13 +51,13 @@
           <div class="field"><label>Phone / WhatsApp</label><div class="phone"><input type="text" id="f-code" class="code-in" placeholder="+91" required><input type="tel" id="f-phone" placeholder="98765 43210" required></div><small class="err" data-for="f-phone"></small></div>
         </div>
         <div class="two">
-          <div class="field"><label>Country</label><select id="f-country" required></select></div>
+          <div class="field"><label>Country</label><span class="selwrap"><select id="f-country" required></select></span></div>
           <div class="field"><label>Business Stage</label>
-            <select id="f-stage"><option value="">Select…</option><option>Startup / Early-stage</option><option>Growth-stage</option><option>Established SME</option><option>Larger business</option><option>Not sure yet</option></select>
+            <span class="selwrap"><select id="f-stage"><option value="">Select…</option><option>Startup / Early-stage</option><option>Growth-stage</option><option>Established SME</option><option>Larger business</option><option>Not sure yet</option></select></span>
           </div>
         </div>
         <div class="field"><label>What are you looking for?</label>
-          <select id="f-looking"><option value="">Select…</option><option>Accounting &amp; Finance Operations</option><option>Virtual CFO &amp; Strategic Finance</option><option>FP&amp;A &amp; Business Analytics</option><option>Finance Automation &amp; Intelligence</option><option>Controls, Risk &amp; Assurance</option><option>Tax &amp; Cross-Border Support</option><option>Complete finance transformation</option><option>Not sure — need guidance</option></select>
+          <span class="selwrap"><select id="f-looking"><option value="">Select…</option><option>Accounting &amp; Finance Operations</option><option>Virtual CFO &amp; Strategic Finance</option><option>FP&amp;A &amp; Business Analytics</option><option>Finance Automation &amp; Intelligence</option><option>Controls, Risk &amp; Assurance</option><option>Tax &amp; Cross-Border Support</option><option>Complete finance transformation</option><option>Not sure — need guidance</option></select></span>
         </div>
         <div class="field"><label>Message</label>
           <textarea id="f-msg" maxlength="500" placeholder="Tell us a little about your business and where finance could help…"></textarea>
@@ -78,13 +78,11 @@
 <section style="background:var(--surface)">
   <div class="wrap">
     <div class="shead reveal"><div class="tag">Visit Us</div><h2>Find us on the map</h2></div>
-    <div class="mapbox reveal" style="height:280px;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);text-align:center;padding:24px">
-      <div>
-        <svg width="34" height="34" fill="none" stroke="var(--accent-dark)" stroke-width="2" viewBox="0 0 24 24" style="margin:0 auto 10px"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <p style="color:var(--accent-dark);font-weight:600">Office address — to be provided by client</p>
-        <p style="color:var(--muted);font-size:14px;margin-top:4px">A Google Map will be embedded here once the address is confirmed.</p>
-      </div>
+    <div class="mapbox reveal">
+      <iframe src="https://www.google.com/maps?q=18.5204,73.8567&z=14&output=embed" title="Stravia Financial Consulting — provisional location, Pune" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
     </div>
+    <p class="mapnote"><em>Provisional location shown — exact office address to be provided by client.</em></p>
+  
   </div>
 </section>
 
@@ -101,10 +99,10 @@
     <div class="ai-summary">
       <div><h5>Ask AI for a summary</h5><p>Prefer AI? Get a quick overview of Stravia from your favourite assistant.</p></div>
       <div class="ai-btns">
-        <a href="https://chatgpt.com" target="_blank" rel="noopener"><svg class="ai-ic" viewBox="0 0 24 24" fill="none" stroke="#10a37f" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3 L19 7.5 V16.5 L12 21 L5 16.5 V7.5 Z"/><path d="M12 3 V12 M12 12 L19 7.5 M12 12 L5 16.5"/></svg>ChatGPT</a>
-        <a href="https://claude.ai" target="_blank" rel="noopener"><svg class="ai-ic" viewBox="0 0 24 24" fill="none" stroke="#d97757" stroke-width="2.3" stroke-linecap="round"><path d="M12 3v18M4.8 7.5l14.4 9M19.2 7.5l-14.4 9"/></svg>Claude</a>
-        <a href="https://www.perplexity.ai" target="_blank" rel="noopener"><svg class="ai-ic" viewBox="0 0 24 24" fill="none" stroke="#20b8cd" stroke-width="1.9"><rect x="6.7" y="6.7" width="10.6" height="10.6" rx="1.5" transform="rotate(45 12 12)"/><path d="M12 3.5v17"/></svg>Perplexity</a>
-        <a href="https://gemini.google.com" target="_blank" rel="noopener"><svg class="ai-ic" viewBox="0 0 24 24" fill="#4f86f7"><path d="M12 2c.5 5 2.5 7 10 10-7.5 3-9.5 5-10 10-.5-5-2.5-7-10-10 7.5-3 9.5-5 10-10z"/></svg>Gemini</a>
+        <a class="ai-go" data-ai="chatgpt" href="https://chatgpt.com" target="_blank" rel="noopener"><svg class="ai-ic" viewBox="0 0 24 24" fill="none" stroke="#10a37f" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3 L19 7.5 V16.5 L12 21 L5 16.5 V7.5 Z"/><path d="M12 3 V12 M12 12 L19 7.5 M12 12 L5 16.5"/></svg>ChatGPT</a>
+        <a class="ai-go" data-ai="claude" href="https://claude.ai" target="_blank" rel="noopener"><svg class="ai-ic" viewBox="0 0 24 24" fill="none" stroke="#d97757" stroke-width="2.3" stroke-linecap="round"><path d="M12 3v18M4.8 7.5l14.4 9M19.2 7.5l-14.4 9"/></svg>Claude</a>
+        <a class="ai-go" data-ai="perplexity" href="https://www.perplexity.ai" target="_blank" rel="noopener"><svg class="ai-ic" viewBox="0 0 24 24" fill="none" stroke="#20b8cd" stroke-width="1.9"><rect x="6.7" y="6.7" width="10.6" height="10.6" rx="1.5" transform="rotate(45 12 12)"/><path d="M12 3.5v17"/></svg>Perplexity</a>
+        <a class="ai-go" data-ai="gemini" href="https://gemini.google.com" target="_blank" rel="noopener"><svg class="ai-ic" viewBox="0 0 24 24" fill="#4f86f7"><path d="M12 2c.5 5 2.5 7 10 10-7.5 3-9.5 5-10 10-.5-5-2.5-7-10-10 7.5-3 9.5-5 10-10z"/></svg>Gemini</a>
       </div>
     </div>
     <div class="fsocials">
