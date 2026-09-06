@@ -49,17 +49,33 @@ function toggleMenu(){ document.querySelector('.mobile').classList.toggle('open'
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ---- Reliable hero video playback ---- */
+  /* ---- Reliable hero video playback ----
+     Browsers pause muted autoplay video in background tabs / Low Power Mode, and Safari
+     then draws a ▶ overlay. So: keep retrying, and if it truly can't play, fade the video
+     out so the hero's poster photo shows instead (never a paused video with a play button). */
   const hv = document.querySelector('.hero-video');
   if(hv){
-    hv.muted = true; hv.setAttribute('playsinline','');
-    const tryPlay = () => { const p = hv.play(); if(p && p.catch) p.catch(()=>{}); };
+    hv.muted = true; hv.defaultMuted = true;
+    hv.setAttribute('muted',''); hv.setAttribute('playsinline',''); hv.removeAttribute('controls');
+    const showVideo = () => { hv.style.opacity = '1'; };
+    const showPoster = () => { hv.style.opacity = '0'; };   // reveals the hero background photo
+    const tryPlay = () => {
+      if(document.hidden) return;
+      const p = hv.play();
+      if(p && p.then) p.then(showVideo).catch(showPoster); else showVideo();
+    };
     tryPlay();
     hv.addEventListener('loadeddata', tryPlay);
     hv.addEventListener('canplay', tryPlay);
-    ['click','touchstart','scroll','keydown','pointerdown'].forEach(ev =>
-      window.addEventListener(ev, tryPlay, {once:true, passive:true}));
+    hv.addEventListener('playing', showVideo);
+    // if it gets paused by the browser, try to resume shortly after; fall back to the photo
+    hv.addEventListener('pause', () => setTimeout(() => { tryPlay(); if(hv.paused) showPoster(); }, 250));
+    // retry on ANY user interaction (not once — keep recovering)
+    ['click','touchstart','keydown','pointerdown','scroll','mousemove'].forEach(ev =>
+      window.addEventListener(ev, tryPlay, {passive:true}));
     document.addEventListener('visibilitychange', () => { if(!document.hidden) tryPlay(); });
+    // safety net: while the tab is visible, nudge it back into playing
+    setInterval(() => { if(!document.hidden && hv.paused) tryPlay(); }, 2000);
   }
 
   /* ---- Reveal on scroll (bulletproof: never leaves content hidden) ---- */
