@@ -398,7 +398,7 @@ header .brand .word span{color:#c3d1e2}
 .consent input{margin-top:2px;flex:none;width:16px;height:16px;accent-color:var(--accent)}
 .consent a{color:var(--accent-dark);font-weight:600;text-decoration:underline}
 .form-card .btn{width:100%;justify-content:center;margin-top:2px}
-.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn[disabled]{background:var(--line);color:var(--muted);opacity:1;cursor:not-allowed;box-shadow:none}
 .btn[disabled]:hover{transform:none;box-shadow:none}
 .mapbox{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
 .mapbox iframe{display:block;width:100%;height:340px;border:0;filter:grayscale(.15)}
@@ -479,16 +479,21 @@ footer a:hover{color:#fff}
   .fbot{justify-content:center;text-align:center}
   .banner{min-height:0;padding:118px 0 54px}
   .hero{padding-top:120px}
-  .contact-grid{padding-top:112px;padding-bottom:56px}
+  .contact-grid{padding-top:104px;padding-bottom:52px;gap:26px}
+  .footer-bg svg{inset:auto;top:50%;left:50%;width:1100px;height:auto;transform:translate(-50%,-50%)}
   .whysplit,.split{gap:28px}
 }
 
 @media(max-width:620px){
-  /* the footer map uses preserveAspectRatio="slice"; at phone aspect ratios it zooms in so far
-     that the dots become blobs, so drop it back to a faint texture */
-  .footer-bg{opacity:.18}
+  /* map.svg draws r=0.95 dots inside a 1000-unit viewBox, so scaling much below 1000px
+     renders them sub-pixel and the map disappears; the footer SVG is preserveAspectRatio
+     "slice", which on a tall narrow phone footer zoomed it until the dots became blobs.
+     Pin both maps near natural scale and crop, rather than rescaling them. */
+  .worldmap{opacity:.62}
+  .footer-bg{opacity:.5}
+  .footer-bg svg{inset:auto;top:50%;left:50%;width:1100px;height:auto;transform:translate(-50%,-50%)}
   section{padding:52px 0}
-  .wrap{padding:0 18px}
+  .wrap{padding-left:18px;padding-right:18px}
   .hero{min-height:0;padding:118px 0 62px}
   .hero .hbtns{flex-direction:column;align-items:stretch;gap:11px}
   .hero .btn{justify-content:center}
@@ -499,8 +504,8 @@ footer a:hover{color:#fff}
   .two{grid-template-columns:1fr}
   .fgrid{grid-template-columns:1fr;gap:24px}
   .ai-summary{flex-direction:column;align-items:flex-start;gap:14px}
-  .brand .word span{display:none}
-  .brand .word b{font-size:20px}
+  .brand .word b{font-size:19px}
+  .brand .word span{font-size:7.5px;letter-spacing:1.6px}
 
   .promise{margin-bottom:28px;padding-bottom:24px}
   .shead{margin-bottom:32px}
@@ -513,7 +518,19 @@ footer a:hover{color:#fff}
   .svc-panel .pad{padding:0 18px 18px}
   .pillars-5 .pillar{min-height:0;padding:22px 20px}
   .form-card{padding:18px}
-  .form-card .btn{padding:14px 24px}
+  .form-card .btn{padding:15px 24px;font-size:15px}
+  .form-card h3{font-size:19px}
+  .form-card .sub{font-size:13.5px;margin-bottom:16px}
+  .contact-grid{padding-top:96px;gap:22px}
+  .contact-info h2{font-size:26px;margin:10px 0 10px}
+  .contact-info p{font-size:14.5px;margin-bottom:18px}
+  .cinfo{gap:11px;margin-bottom:12px}
+  .cinfo .ci{width:38px;height:38px}
+  .cinfo .ci svg{width:18px;height:18px}
+  .cinfo b{font-size:13.5px}
+  .cinfo span{font-size:12px}
+  .field{margin-bottom:12px}
+  .field label{font-size:12.5px;margin-bottom:5px}
   .mapbox iframe{height:260px}
   .team{gap:20px}
   .member img,.member .ph{height:230px}
@@ -522,7 +539,7 @@ footer a:hover{color:#fff}
 }
 
 @media(max-width:400px){
-  .wrap{padding:0 15px}
+  .wrap{padding-left:15px;padding-right:15px}
   .hero h1{font-size:29px}
   .hero .eyebrow{letter-spacing:1.6px;font-size:11.5px}
   .phone .code-in{width:70px}
