@@ -28,20 +28,21 @@
       <div class="tag">Get in Touch</div>
       <h2>Let's talk about your finance function</h2>
       <p>Whether you need better accounting, stronger reporting, a financial model, a CFO partner or a complete finance transformation — let's start with a conversation.</p>
-      <div class="cinfo"><div class="ci"><svg stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 6l8 6 8-6"/></svg></div><div><b class="np">Email — to be provided by client</b><span>To be confirmed</span></div></div>
-      <div class="cinfo"><div class="ci"><svg stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z"/></svg></div><div><b class="np">Phone / WhatsApp — to be provided by client</b><span>To be confirmed</span></div></div>
-      <div class="cinfo"><div class="ci"><svg stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><b class="np">Office address — to be provided by client</b><span>Serving clients across India, US, UK &amp; Europe</span></div></div>
+      <div class="cinfo"><div class="ci"><svg stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 6l8 6 8-6"/></svg></div><div><b><a href="mailto:Hello@stravia.co.in">Hello@stravia.co.in</a></b><span>We reply within one business day</span></div></div>
+      <div class="cinfo"><div class="ci"><svg stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z"/></svg></div><div><b><a href="tel:+918805676663">+91 88056 76663</a></b><span><a href="https://wa.me/918805676663" target="_blank" rel="noopener">Message us on WhatsApp</a></span></div></div>
+      <div class="cinfo"><div class="ci"><svg stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><b><a href="https://www.google.com/maps/place/Vantage+High+by+BramhaCorp/@18.5209381,73.7767171,17z" target="_blank" rel="noopener">B-202, BrahmaCorp Vantage High, Ram Nagar, Bavdhan, Pune 411021</a></b><span>Serving clients across India, US, UK &amp; Europe</span></div></div>
       <div class="socials">
-        <a href="#" title="To be provided by client"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-11h4v1.5A6 6 0 0116 8zM2 9h4v12H2zM4 2a2 2 0 110 4 2 2 0 010-4z"/></svg></a>
-        <a href="#" title="To be provided by client"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#fff" stroke="none"/></svg></a>
-        <a href="#" title="To be provided by client"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 01-12.6 7.4L3 21l2.2-5.3A8.5 8.5 0 1121 11.5z"/></svg></a>
+        <a href="https://www.linkedin.com/company/stravia-fin-co/home/" target="_blank" rel="noopener" title="Stravia on LinkedIn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-11h4v1.5A6 6 0 0116 8zM2 9h4v12H2zM4 2a2 2 0 110 4 2 2 0 010-4z"/></svg></a>
+        <a href="https://wa.me/918805676663" target="_blank" rel="noopener" title="Message us on WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 01-12.6 7.4L3 21l2.2-5.3A8.5 8.5 0 1121 11.5z"/></svg></a>
       </div>
     </div>
 
     <div class="form-card reveal">
       <h3>Start the conversation</h3>
       <div class="sub">Share a few details about your business and what you're looking for.</div>
-      <form id="enquiry" novalidate>
+      <form id="enquiry" novalidate method="post" action="send.php">
+        <!-- honeypot: hidden from people, bots fill it in -->
+        <div class="hp" aria-hidden="true"><label>Website<input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off"></label></div>
         <div class="two">
           <div class="field"><label>Full Name</label><input type="text" id="f-name" maxlength="60" placeholder="Your name" required><small class="err" data-for="f-name"></small></div>
           <div class="field"><label>Company</label><input type="text" id="f-company" maxlength="80" placeholder="Company name"></div>
@@ -67,7 +68,7 @@
           <div class="captcha"><span class="code" id="cap-code">7FQ2K</span><button type="button" class="cap-refresh" id="cap-refresh" title="Get a new code" aria-label="Refresh code">&#8635;</button><input type="text" id="f-captcha" placeholder="Type the code shown" required></div>
           <small class="err" data-for="f-captcha"></small>
         </div>
-        <label class="consent"><input type="checkbox" id="f-consent" required><span>By checking this box, you acknowledge you have read our <a href="#">Privacy Policy</a>.</span></label>
+        <label class="consent"><input type="checkbox" id="f-consent" required><span>By checking this box, you acknowledge you have read our <a href="privacy.html">Privacy Policy</a> and agree to our <a href="terms.html">Terms &amp; Conditions</a>.</span></label>
         <button type="submit" class="btn btn-lg" id="f-submit" disabled>Start the Conversation</button>
       </form>
     </div>
@@ -79,9 +80,9 @@
   <div class="wrap">
     <div class="shead reveal"><div class="tag">Visit Us</div><h2>Find us on the map</h2></div>
     <div class="mapbox reveal">
-      <iframe src="https://www.google.com/maps?q=18.5204,73.8567&z=14&output=embed" title="Stravia Financial Consulting — provisional location, Pune" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.1761998179663!2d73.77671707542834!3d18.520938082572737!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf270228b11f%3A0xde41aab63c0591dd!2sVantage%20High%20by%20BramhaCorp!5e0!3m2!1sen!2sin!4v1789841838757!5m2!1sen!2sin" title="Stravia Financial Consulting — Vantage High by BramhaCorp, Bavdhan, Pune" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
-    <p class="mapnote"><em>Provisional location shown — exact office address to be provided by client.</em></p>
+    <p class="mapnote">B-202, BrahmaCorp Vantage High, Ram Nagar, Bavdhan, Pune 411021</p>
   
   </div>
 </section>
@@ -91,10 +92,10 @@
   <div class="wrap">
     <div class="fgrid">
       <div><a class="brand" href="index.html"><img class="logo" src="assets/logo.webp" alt="Stravia Financial Consulting"><span class="word"><b>Stravia</b><span>Financial Consulting</span></span></a>
-        <p class="fabout">An ownership-driven finance partner — accounting, FP&amp;A, CFO advisory, modelling and finance transformation for ambitious businesses.</p></div>
+        <p class="fabout">An ownership-driven finance partner — Accounting, FP&amp;A, CFO advisory, modelling and finance transformation for ambitious businesses.</p></div>
       <div><h5>Services</h5><a href="services.html">Accounting &amp; Ops</a><a href="services.html">Virtual CFO</a><a href="services.html">FP&amp;A &amp; Analytics</a><a href="services.html">Automation</a><a href="services.html">Controls &amp; Risk</a><a href="services.html">Tax &amp; Cross-Border</a></div>
       <div><h5>Company</h5><a href="industries.html">Industries</a><a href="approach.html">Approach</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
-      <div><h5>Get in touch</h5><a class="np">Email — to be provided by client</a><a class="np">Phone — to be provided by client</a><a class="np">Address — to be provided by client</a></div>
+      <div><h5>Get in touch</h5><a href="mailto:Hello@stravia.co.in">Hello@stravia.co.in</a><a href="tel:+918805676663">+91 88056 76663</a><a href="https://www.google.com/maps/place/Vantage+High+by+BramhaCorp/@18.5209381,73.7767171,17z" target="_blank" rel="noopener">B-202, BrahmaCorp Vantage High, Ram Nagar, Bavdhan, Pune 411021</a></div>
     </div>
     <div class="ai-summary">
       <div><h5>Ask AI for a summary</h5><p>Prefer AI? Get a quick overview of Stravia from your favourite assistant.</p></div>
@@ -106,13 +107,17 @@
       </div>
     </div>
     <div class="fsocials">
-      <a href="#" title="To be provided by client"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-11h4v1.5A6 6 0 0116 8zM2 9h4v12H2zM4 2a2 2 0 110 4 2 2 0 010-4z"/></svg></a>
-      <a href="#" title="To be provided by client"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#fff" stroke="none"/></svg></a>
-      <a href="#" title="To be provided by client"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 01-12.6 7.4L3 21l2.2-5.3A8.5 8.5 0 1121 11.5z"/></svg></a>
+      <a href="https://www.linkedin.com/company/stravia-fin-co/home/" target="_blank" rel="noopener" title="Stravia on LinkedIn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-11h4v1.5A6 6 0 0116 8zM2 9h4v12H2zM4 2a2 2 0 110 4 2 2 0 010-4z"/></svg></a>
+      <a href="https://wa.me/918805676663" target="_blank" rel="noopener" title="Message us on WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 01-12.6 7.4L3 21l2.2-5.3A8.5 8.5 0 1121 11.5z"/></svg></a>
     </div>
-    <div class="fbot"><span>© 2026 Stravia Financial Consulting Pvt. Ltd. All rights reserved.</span><span>Social links — to be provided by client</span></div>
+    <div class="fbot"><span>© <span class="year">2026</span> Stravia Financial Consulting Pvt. Ltd. All rights reserved.</span><span class="flinks"><a href="terms.html">Terms &amp; Conditions</a><i aria-hidden="true">|</i><a href="privacy.html">Privacy Policy</a></span></div>
   </div>
 </footer>
+
+<!-- floating WhatsApp button -->
+<a class="wa-float" href="https://wa.me/918805676663" target="_blank" rel="noopener" aria-label="Message Stravia on WhatsApp" title="Message us on WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C8.8 3 3 8.8 3 16c0 2.3.6 4.5 1.7 6.4L3 29l6.8-1.8A13 13 0 1016 3zm0 23.6c-2 0-4-.5-5.7-1.6l-.4-.2-4 1 1.1-3.9-.3-.4A10.6 10.6 0 1116 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 01-2.6-1.6 9.7 9.7 0 01-1.8-2.2c-.2-.3 0-.5.1-.7l.5-.6.4-.6v-.6l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 00-.9.4 3.6 3.6 0 00-1.1 2.7 6.3 6.3 0 001.3 3.3 14.3 14.3 0 005.5 4.8c2.2.9 2.7.8 3.2.7a3.2 3.2 0 002.2-1.5 2.7 2.7 0 00.2-1.5c-.1-.2-.3-.3-.6-.4z"/></svg>
+</a>
 
 <script src="script.js"></script>
 </body>

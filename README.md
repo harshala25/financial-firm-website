@@ -15,7 +15,7 @@ Tagline: *Finance Beyond Numbers. Powered by Intelligence.*
 ## Tech
 - Plain **HTML, CSS, JavaScript** — no build step, no framework
 - `styles.css` — theme-driven via CSS variables; responsive via auto-fit grids
-- `script.js` — colour-theme switcher (with localStorage), reliable video playback, scroll reveals, rotating globe, footer world map and the contact-form logic
+- `script.js` — reliable video playback, scroll reveals, rotating globe, footer world map and the contact-form logic
 - `assets/` — images in **webp** + the hero video (all local)
 
 ## Colour themes

@@ -1,0 +1,16 @@
+# Keep credentials and server-side code out of the browser
+<FilesMatch "^(config|config\.sample)\.php$">
+  Require all denied
+</FilesMatch>
+<IfModule !mod_authz_core.c>
+  <FilesMatch "^(config|config\.sample)\.php$">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+</IfModule>
+RedirectMatch 403 ^/lib/.*$
+RedirectMatch 403 ^/storage/.*$
+
+# Serve webp/webm with the right type if the host has not mapped them
+AddType image/webp .webp
+AddType video/webm .webm

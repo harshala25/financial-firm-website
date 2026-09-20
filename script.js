@@ -1,48 +1,13 @@
 /* ===== STRAVIA — site scripts ===== */
 document.documentElement.classList.add('js');
 
-/* ---------- Theme switcher ---------- */
-const THEMES = {
-  steel:  {name:'Steel Blue', rec:true,  bg:'#f5f8fc',ink:'#1f2a3a',muted:'#5b6875',accent:'#3b6ea5',accentDark:'#2d5683',accentSoft:'#d3e0ee',line:'#e0e6ef',d1:'#2a3d57',d2:'#141d2b'},
-  navy:   {name:'Stravia Navy',logo:true, bg:'#f4f6fb',ink:'#20294b',muted:'#5a6478',accent:'#3a5590',accentDark:'#22376b',accentSoft:'#dfe6f3',line:'#e2e5ed',d1:'#1f3166',d2:'#101a3e'},
-  royal:  {name:'Royal Blue', bg:'#f6f9fd',ink:'#192334',muted:'#5c6b7a',accent:'#4b75c6',accentDark:'#3d5b9e',accentSoft:'#dee6f4',line:'#e4e9ef',d1:'#2d3b59',d2:'#171e2f'},
-  teal:   {name:'Deep Teal', bg:'#f3fafa',ink:'#142729',muted:'#526266',accent:'#255c5f',accentDark:'#1c4749',accentSoft:'#d5e3e3',line:'#dee7e7',d1:'#1d383d',d2:'#0e1c1e'},
-  indigo: {name:'Indigo', bg:'#f7f8fd',ink:'#22263d',muted:'#63697f',accent:'#5863ad',accentDark:'#464f87',accentSoft:'#e2e5f5',line:'#e7e8f0',d1:'#313357',d2:'#181930'},
-  slate:  {name:'Slate Blue', bg:'#f5f7fb',ink:'#282e33',muted:'#5d6a78',accent:'#56636f',accentDark:'#414b55',accentSoft:'#dee3e7',line:'#e5e7ea',d1:'#31383f',d2:'#181c20'}
-};
-function applyTheme(key){
-  const t = THEMES[key] || THEMES.steel, r = document.documentElement.style;
-  r.setProperty('--bg',t.bg); r.setProperty('--surface','#ffffff'); r.setProperty('--ink',t.ink);
-  r.setProperty('--muted',t.muted); r.setProperty('--accent',t.accent); r.setProperty('--accent-dark',t.accentDark);
-  r.setProperty('--accent-soft',t.accentSoft); r.setProperty('--on-accent','#ffffff'); r.setProperty('--line',t.line);
-  r.setProperty('--d1',t.d1); r.setProperty('--d2',t.d2);
-  try{ localStorage.setItem('stravia-theme', key); }catch(e){}
-  document.querySelectorAll('.theme-opt').forEach(o => o.classList.toggle('active', o.dataset.theme===key));
-}
-(function initTheme(){
-  let saved='steel'; try{ saved = localStorage.getItem('stravia-theme') || 'steel'; }catch(e){}
-  applyTheme(saved);
-  document.addEventListener('DOMContentLoaded', () => {
-    const nav=document.querySelector('.nav'), header=document.querySelector('header');
-    if(!nav || !header) return;
-    const toggle=document.createElement('button'); toggle.className='theme-toggle'; toggle.title='Colour theme'; toggle.setAttribute('aria-label','Change colour theme');
-    toggle.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a9 9 0 100 18h1.4a2.4 2.4 0 002.1-3.6 1.5 1.5 0 011.3-2.3H19a2 2 0 002-2A9 9 0 0012 3z"/><circle cx="8" cy="10" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="7.4" r="1.1" fill="currentColor" stroke="none"/><circle cx="16" cy="10" r="1.1" fill="currentColor" stroke="none"/></svg>';
-    const hamb=nav.querySelector('.hamb'); nav.insertBefore(toggle, hamb);
-    const panel=document.createElement('div'); panel.className='theme-panel';
-    const chk='<svg class="chk" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    let html='<h4>Colour theme</h4>';
-    for(const k in THEMES){ const t=THEMES[k];
-      html+=`<button class="theme-opt" data-theme="${k}"><span class="sw"><i style="background:${t.d2}"></i><i style="background:${t.accent}"></i><i style="background:${t.accentSoft}"></i></span><span class="nm">${t.name}</span>`
-        + (t.rec?'<span class="rec">Recommended</span>':(t.logo?'<span class="rec">Logo</span>':'')) + chk + '</button>';
-    }
-    panel.innerHTML=html;
-    header.appendChild(panel);
-    toggle.addEventListener('click', e => { e.stopPropagation(); panel.classList.toggle('open'); });
-    panel.querySelectorAll('.theme-opt').forEach(o => o.addEventListener('click', () => { applyTheme(o.dataset.theme); panel.classList.remove('open'); }));
-    document.addEventListener('click', e => { if(!panel.contains(e.target) && !toggle.contains(e.target)) panel.classList.remove('open'); });
-    applyTheme(saved);
-  });
-})();
+/* ---------- Footer year ----------
+   Keeps the copyright year current so nobody has to edit seven files each January.
+   The HTML still contains a real year, so it reads correctly with JavaScript off. */
+document.addEventListener('DOMContentLoaded', () => {
+  const y = String(new Date().getFullYear());
+  document.querySelectorAll('.year').forEach(el => { el.textContent = y; });
+});
 
 /* ---------- Mobile menu ---------- */
 function toggleMenu(){ document.querySelector('.mobile').classList.toggle('open'); }
@@ -386,10 +351,58 @@ function initContactForm(){
   capIn.addEventListener('input',()=>{ if(capIn.value.length>=currentCode.length){ if(V.captcha()){setV(capIn,true);err('f-captcha','');}
     else{ genCode(); capIn.value=''; setV(capIn,false); capCode.classList.remove('flash');void capCode.offsetWidth;capCode.classList.add('flash'); err('f-captcha','Incorrect — a new code was generated.'); } } else err('f-captcha',''); validate(); });
   validate();
-  form.addEventListener('submit',e=>{ e.preventDefault(); if(submit.disabled) return;
-    submit.textContent='Sending…';
-    setTimeout(()=>{ submit.textContent='Message sent ✓'; form.reset(); country.value='India'; code.value='+91'; genCode();
-      if(msgCount) msgCount.textContent='0 / 500'; [name,email,phone,capIn].forEach(el=>el.classList.remove('valid','invalid'));
-      submit.disabled=true; setTimeout(()=>submit.textContent='Start the Conversation',2400); },800);
+  /* ---- real submission: posts to send.php, which emails Stravia ---- */
+  const loadedAt = Math.floor(Date.now()/1000);          // used server-side to spot bots
+  const formNote = document.createElement('p');
+  formNote.className = 'form-note';
+  form.appendChild(formNote);
+  const note = (msg, kind) => { formNote.textContent = msg; formNote.className = 'form-note ' + (kind||''); };
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if(submit.disabled) return;
+    const original = 'Start the Conversation';
+    submit.disabled = true; submit.textContent = 'Sending…'; note('');
+
+    const payload = {
+      name: name.value, company: $('f-company').value, email: email.value,
+      code: code.value, phone: phone.value, country: country.value,
+      stage: stage ? stage.value : '', looking: looking ? looking.value : '',
+      message: msg ? msg.value : '', consent: consent.checked,
+      website: $('f-website') ? $('f-website').value : '',   // honeypot
+      t: loadedAt
+    };
+
+    try {
+      const res  = await fetch('send.php', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json().catch(() => ({ok:false, error:'Unexpected response from the server.'}));
+
+      if(res.ok && data.ok){
+        submit.textContent = 'Message sent ✓';
+        note('Thanks — your message is on its way. We reply within one business day.', 'ok');
+        form.reset(); country.value='India'; code.value='+91'; genCode();
+        country.dispatchEvent(new Event('cs:sync'));
+        if(msgCount) msgCount.textContent = '0 / 500';
+        [name,email,phone,capIn].forEach(el => el.classList.remove('valid','invalid'));
+        setTimeout(() => { submit.textContent = original; }, 3000);
+      } else {
+        // surface per-field errors the server found
+        if(data.fields){
+          for(const k in data.fields) err('f-'+k, data.fields[k]);
+        }
+        note(data.error || 'Something went wrong. Please try again.', 'bad');
+        submit.textContent = original;
+        submit.disabled = false;
+      }
+    } catch(err) {
+      note('We could not reach the server. Please check your connection, or email us at Hello@stravia.co.in.', 'bad');
+      submit.textContent = original;
+      submit.disabled = false;
+    }
+    validate();
   });
 }

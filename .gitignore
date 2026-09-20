@@ -8,3 +8,9 @@ _*.html
 imp_points.txt
 *.code-workspace
 .DS_Store
+
+# server-side config — never commit real credentials
+config.php
+storage/rl_*.json
+
+inbox/
