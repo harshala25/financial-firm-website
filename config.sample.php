@@ -3,21 +3,31 @@
  * Copy this file to config.php and fill in the real values.
  * config.php is git-ignored so credentials never reach the repository.
  *
- * On GoDaddy cPanel hosting, the mailbox for the domain is usually reachable at:
- *   host 'smtpout.secureserver.net', port 587, secure 'tls'
- * If email for stravia.co.in is on Microsoft 365 instead:
- *   host 'smtp.office365.com',       port 587, secure 'tls'
- * Leave 'host' empty to fall back to PHP's built-in mail().
+ * GoDaddy shared hosting BLOCKS all outbound SMTP — smtp.office365.com,
+ * smtpout.secureserver.net and relay-hosting.secureserver.net all time out
+ * (verified on the Singapore server, Sep 2026). The only route that works is
+ * the server's own Exim on localhost:25, which needs no username or password:
+ *
+ *   'host' => 'localhost', 'port' => 25, 'secure' => '', username/password ''
+ *
+ * Two things this depends on:
+ *   1. The domain's SPF record must include GoDaddy, or Microsoft 365 will
+ *      treat the mail as spoofed:  include:secureserver.net
+ *   2. cPanel > Email Routing for stravia.co.in must be set to REMOTE mail
+ *      exchanger, otherwise Exim delivers Hello@stravia.co.in to a local
+ *      mailbox on this server instead of to Microsoft 365, and it vanishes.
+ *
+ * Leave 'host' empty to fall back to PHP's built-in mail() instead.
  */
 return [
     'smtp' => [
-        'host'     => '',                      // e.g. 'smtpout.secureserver.net'
-        'port'     => 587,
-        'secure'   => 'tls',                   // 'tls' (587) | 'ssl' (465) | '' (25)
-        'username' => '',                      // the full mailbox address
+        'host'     => 'localhost',             // GoDaddy blocks every external SMTP host
+        'port'     => 25,
+        'secure'   => '',                      // 'tls' (587) | 'ssl' (465) | '' (25)
+        'username' => '',                      // local Exim needs no authentication
         'password' => '',
         'from'     => 'Hello@stravia.co.in',   // must be a mailbox you control
-        'fromName' => 'Stravia Website',
+        'fromName' => 'Stravia',
         'timeout'  => 15,
     ],
 
